@@ -1,0 +1,41 @@
+.apstation {
+    height: calc(100vh - 80px);
+    background-color: white;
+    width: 100vw;
+    display: flex;
+
+    &_left {
+        width: 200px;
+        height: calc(100vh - 80px);
+        border-right: 1px solid #e8e8e8;
+
+        h1 {
+            padding: 10px 0px 0px 20px;
+            font-weight: 700;
+        }
+
+        .ant-menu {
+            font-weight: 600;
+        }
+
+        .ant-menu-vertical {
+            border-right: none;
+        }
+    }
+
+    &_right {
+        height: calc(100vh - 80px);
+        width: calc(100vw - 200px);
+
+        &_header {
+            height: 70px;
+            border-bottom: 1px solid #e8e8e8;
+            line-height: 70px;
+
+            .right_float {
+                float: right;
+                margin-right: 20px;
+            }
+        }
+    }
+}

@@ -1,0 +1,353 @@
+.controlarea-wrapper {
+    display: inline-flex;
+    width: 100px;
+
+    .controlarea-add-control-controlarea-location-btn {
+        background: url('../Image/map.png');
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    .controlarea-add-control-controlarea-location-btn:hover {
+        background: url('../Image/maphandle.png');
+    }
+}
+
+.controlarea-modal {
+    .ant-modal-body {
+        padding: 0px;
+    }
+}
+
+.controlarea-choose-dev {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .controlarea-choose-list {
+        width: 240px;
+        border: 1px solid #ddd;
+
+        .controlarea-choose-toolbar {
+            background: #F4F5F7;
+            width: 239px;
+            height: 40px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 8px;
+            border-right: 1px solid #ddd;
+
+            .controlarea-choose-list-desc {
+                display: inline-block;
+            }
+
+            button {
+                width: 60px;
+                height: 25px !important;
+                background: #EFEFEF;
+            }
+        }
+
+        .controlarea-ul-wrapper {
+            overflow: auto;
+
+            .controlarea-li-show {
+                cursor: pointer;
+                height: 50px;
+                line-height: 50px;
+                padding: 0px 4px;
+
+                .controlarea-div-show {
+                    padding: 0px 8px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+
+                    .controlarea-show-img {
+                        background: url('../Image/select.png')no-repeat;
+                        width: 24px;
+                        height: 24px;
+                        display: inline-block;
+                        position: relative;
+                    }
+
+                    .controlarea-show-num {
+                        position: relative;
+                        right: -5px;
+                        bottom: 15px;
+                        color: #FFFFFF;
+                        font-size: 12px;
+                    }
+
+                    .controlarea-show-num-double {
+                        position: relative;
+                        right: -2px;
+                        bottom: 15px;
+                        color: #FFFFFF;
+                        font-size: 12px;
+                    }
+
+                    .controlarea-show-name {
+                        width: 149px;
+                        display: inline-block;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+
+                    .controlarea-show-delete {
+                        display: none;
+                        width: 24px;
+                        height: 24px;
+                        background: url('../Image/deleteG.png')no-repeat;
+                        position: relative;
+                    }
+                }
+            }
+
+            .controlarea-li-show :hover {
+                background: #E5F0FF;
+
+                .controlarea-show-num {
+                    background: none;
+                }
+
+                .controlarea-show-img {
+                    background: url('../Image/selected.png')no-repeat;
+                }
+
+                .controlarea-show-delete {
+                    display: inline-block;
+                }
+            }
+        }
+
+        .controlarea-devlist-nodev {
+            text-align: center;
+            padding-top: 130px;
+        }
+
+        button {
+            float: right;
+            width: 60px;
+
+            .ant-btn {
+                height: 25px !important;
+            }
+        }
+    }
+
+    .controlarea-choose-map {
+        .controlarea-choose-map-wrapper {
+            display: inline-block;
+            position: absolute;
+            z-index: 1;
+            top: 10px;
+
+            .controlarea-choose-map-btn {
+                .controlarea-choose-map-btn-box {
+                    background: #FFFFFF;
+                    margin-top: 6px;
+                    position: relative;
+                    right: 77px;
+
+                    .ant-btn {
+                        padding: 0px 4px;
+                    }
+
+                    i {
+                        position: absolute;
+                        top: 4px;
+                        right: 4px;
+                        cursor: pointer;
+                        z-index: 2;
+                        font-size: 16px;
+                    }
+
+                    .controlarea-add-control-dropdown {
+                        padding-top: 2px;
+                        padding-left: 8px;
+                    }
+
+                    .controlarea-choose-map-btn-group {
+                        padding: 4px;
+
+                        .controlarea-choose-map_icon {
+                            width: 149px;
+                            display: flex;
+                            justify-content: space-around;
+
+                            &-show {
+                                border: 1px solid #1890ff;
+                                cursor: pointer;
+                            }
+
+                            &-noshow {
+                                border: 1px solid transparent;
+                                cursor: pointer;
+                            }
+                        }
+
+                        label {
+                            margin: 2px;
+                            border-color: #FFFFFF;
+                        }
+
+                        .ant-radio-button-wrapper-checked {
+                            border-color: #1890ff;
+                        }
+
+                        .ant-radio-button-wrapper {
+                            padding: 0px 4px;
+                            border-radius: 0px;
+
+                            span {
+                                position: relative;
+                                bottom: 2px;
+                            }
+                        }
+
+                        .ant-radio-button-wrapper:not(:first-child)::before {
+                            background-color: #FFFFFF;
+                        }
+                    }
+                }
+            }
+        }
+
+        &-search {
+            display: inline-block;
+            position: absolute;
+            z-index: 1;
+            background: white;
+            width: 320px;
+
+            &-ul {
+                .ant-list-items {
+                    height: ~'calc(100vh / 2 - 20vh)';
+                    overflow: auto;
+                }
+
+                .ant-list-item {
+                    padding: 10px;
+                    cursor: pointer;
+                    position: relative;
+
+                    p {
+                        font-size: 14px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        width: 230px;
+                        margin-bottom: 0px;
+                        margin-left: 10px;
+                    }
+
+                    p:hover {
+                        color: #1890ff;
+                    }
+                }
+
+            }
+        }
+
+        button {
+            border-color: #FFFFFF;
+            color: #4381DE;
+        }
+    }
+}
+
+.ant-divider-horizontal {
+    margin: 3px 0px;
+}
+
+.draw-border-style {
+    border-color: #94BCF7;
+}
+
+.controlarea-modal-wrapper {
+    .ant-modal-header {
+        height: 36px !important;
+        background: #559DFF !important;
+    }
+
+    .ant-modal-title {
+        color: #FFFFFF;
+        line-height: 0px !important;
+    }
+
+    .ant-modal-footer {
+        text-align: center;
+
+        .controlarea-add-okbtn {
+            width: 120px;
+            background: #4374DE;
+            color: #FFFFFF;
+
+        }
+
+        .controlarea-add-cancelbtn {
+            width: 120px;
+        }
+    }
+
+    .ant-select-selection__rendered {
+        margin-left: 0px;
+    }
+
+    .ant-modal-close {
+        color: #FFFFFF;
+
+        .ant-modal-close-x {
+            line-height: 36px;
+        }
+    }
+}
+
+.controlarea_layer {
+    position: absolute;
+    left: 250px;
+    top: 20px;
+    background: white;
+    z-index: 3;
+    width: 200px;
+
+    li {
+        // text-indent: 1em;
+        margin: 10px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        >span {
+            width: 149px;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    i {
+        cursor: pointer;
+    }
+
+}
+
+
+#Map_Com {
+    .controlarea-choose-dev .controlarea-choose-map .controlarea-choose-map-wrapper .controlarea-choose-map-btn .controlarea-choose-map-btn-box .controlarea-choose-map-btn-group .ant-radio-button-wrapper {
+        border-color: transparent;
+    }
+}
+
+.ant-popover-inner-content {
+    padding: 1px
+}

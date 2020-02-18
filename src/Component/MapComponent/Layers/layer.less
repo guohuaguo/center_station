@@ -1,0 +1,32 @@
+.MC-right-menu{
+    position: absolute;
+    & > ul{
+        position: absolute;
+        left: 10px;
+        top: 15px;
+    }
+    .ant-popover-arrow{
+        display: none;
+    }
+    .ant-popover-inner{
+        background: transparent;
+        margin-left: -13px;
+        .ant-popover-inner-content{
+            padding: 0;
+        }
+    }
+    ul{
+        background: rgba(31,32,33,0.85);
+        color: #FFFFFF;
+        width: 150px;
+        li{
+            line-height: 30px;
+            height: 30px;
+            text-indent: 5px;
+            &:hover{
+                background: #40a9ff;
+                cursor: pointer;
+            }
+        }
+    }
+}

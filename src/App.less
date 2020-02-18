@@ -1,0 +1,71 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: white;
+
+  .ant-layout-header {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.65);
+    font-family: '微软雅黑';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    height: 50px;
+    line-height: 50px;
+
+    .headerImg {
+      border-width: 0px;
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      width: 40px;
+      height: 40px;
+    }
+
+    span {
+      font-weight: 550;
+      color: white;
+    }
+
+    .anticon {
+      position: absolute;
+
+    }
+
+    .ant-menu {
+      font-size: 16px;
+      background-color: transparent;
+      line-height: 50px;
+    }
+
+    .ant-menu-horizontal {
+      border-bottom: none;
+      display: flex;
+
+      .ant-menu-item-selected {
+        border-bottom: none;
+        background-color: rgba(0, 0, 0, 0.75);
+      }
+
+      .ant-menu-item:hover {
+        border-bottom: none;
+      }
+
+      .ant-menu-item {
+        margin-left: 50px;
+        height: 50px;
+
+        a {
+          color: white;
+          display: inline;
+        }
+      }
+
+      .ant-menu-submenu {
+        height: 50px;
+      }
+    }
+  }
+
+}

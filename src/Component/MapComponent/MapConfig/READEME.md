@@ -1,0 +1,1 @@
+MapConfig  是web地图上传插件的页面，编译后部署在\PSIVIAP\GAServer\g_ga_mapservice\mapserver\static下面

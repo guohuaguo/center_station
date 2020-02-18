@@ -1,0 +1,821 @@
+// 通用样式
+ul{
+    padding:0;
+    margin:0;
+    list-style: none;
+}
+/*
+    DrawTypeMenu框选菜单组件
+*/
+.drawSelect {
+    background-color: transparent;
+    height: 100px;
+    .menuTitle{
+        height:32px;
+        width: 60px;
+        font-size: 12px;
+        background: #fff;
+        line-height: 32px;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right:0;
+        i{
+            display: inline-block;
+            width:25px;
+            height:25px;
+            background-size:24px 24px;
+            background-image: url(../Image/select.png);
+            background-position:center; 
+            cursor: pointer;
+        }
+        &:hover{
+            i{
+                background-image: url(../Image/select_hover.png);
+            }
+        }
+    }
+    .drawTypeMenu{
+        width:120px;
+        background:rgba(255,255,255,1);
+        border-radius:2px;
+        box-sizing: border-box;
+        .title{
+            padding: 0 5px;
+            height:25px;
+            font-size: 12px;
+            background:rgba(255,255,255,1);
+            border-radius:2px 2px 0px 0px;
+            box-shadow:1px 0px 0px rgba(224,227,230,0.75);
+            line-height: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E0E3E6;
+            .cancelIcon{
+                width:16px;
+                height:16px;
+                background-size:16px 16px;
+                display: inline-block;
+                background: url(../Image/del_default.png);
+                background-repeat:no-repeat;
+                cursor: pointer;
+            }
+        }
+        ul{
+            box-sizing: border-box;
+            width:130px;
+            display: flex;
+            height:30px;
+            >li{
+                width: 30px;
+                height:30px;
+                border-left: 1px solid rgb(190, 185, 185);
+                background-size: 24px 24px;
+                cursor: pointer;
+                background-position:center; 
+                background-repeat:no-repeat;
+                &:hover{
+                    background-color: #c4c4c3 !important;
+                }
+                &:first-child{
+                    border-left: none;
+                }
+            }
+            .LineString{
+                background-image: url(../Image/LineString.png);
+               
+            }
+            .Rectangle{
+                background-image: url(../Image/Rectangle.png);
+               
+            }
+            .Circle{
+                background-image: url(../Image/Circle.png);
+             
+            }
+            .Polygon{
+                background-image: url(../Image/Polygon.png);
+            }
+        }
+    }
+}
+/* 
+    测量部分DistanceMeasure 
+*/
+.tooltip {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.tooltip-measure {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.tooltip-static {
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid white;
+}
+
+.tooltip-measure:before,
+.tooltip-static:before {
+    border-top: 6px solid #fff;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    margin-left: -7px;
+    left: 50%;
+}
+#scalebar {
+    float: left;
+    margin-bottom: 10px;
+}
+
+/*
+    图层LayerChange
+*/ 
+.layerChange{
+    .layer-select{
+        position: absolute;
+        width: 220px;
+        max-height: 500px;
+        overflow: auto;
+        box-sizing: border-box;
+        right: 20px;
+        top: 80px;
+        z-index: 99;
+        background: #fff;
+        text-align: left;
+        border: 1px solid #333;
+        padding: 20px 7px;
+        .ant-tree{
+            margin-bottom:15px;
+            li{
+                padding:0 !important;
+                font-size: 12px !important;
+                color:#000 !important;
+            }
+        }
+        .footer{
+            padding-left: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            margin-top:10px;
+            button{
+                height: 26px;
+                margin-right: 20px;
+                width:60px;
+            }
+        }
+    }
+    .layerCon{
+        position: absolute;
+        top:20px;
+        right:20px;
+        background-color: #fff;
+        .layerIcon{
+            background: url("../Image/layer_default.png") no-repeat;
+            display: block;
+            width:20px;
+            height: 20px;
+            margin:0 auto;
+        }
+        &:hover{
+            color: #4381DE;
+            .layerIcon{
+                background: url("../Image/layer_hover.png") no-repeat;
+            } 
+        }
+    }
+}
+/*
+    绘制可视域DrawViewRange
+*/ 
+.drawViewRange{
+    font-size: 12px;
+    text-align:center;
+    p{
+        width:400px;
+        margin:0 auto;
+        text-align: left;
+        line-height: 25px;
+        button{
+            height:25px;
+            line-height: 25px;
+        }
+    }
+    #cvs{
+        background-color: antiquewhite;
+        background-repeat:no-repeat;
+        background-position:50% 50%;
+        background-size:400px 400px;
+    }
+}
+/*
+    设置可视域SetVisibleRange
+*/
+.visibleModal{
+    width:1000px;
+    height:600px;
+    border: 1px solid #6287D9;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 5px 0px 15px rgba(20, 21, 23, 1);
+    background: #fff;
+    color: #444;
+    .ant-select-selection--single{
+        width: 180px;
+        height: 25px;
+    }
+    .visibleContainer{
+        padding:10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        .iptStyle{
+            width:380px;
+            box-sizing:border-box;
+            padding:2px 4px;
+            height:25px;
+        }
+        .ant-spin-lg{
+            .ant-spin-dot {
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+        } 
+        ul{
+            height:263px;
+            li{
+                line-height: 25px;
+                height: 25px;
+                margin:5px;
+            }
+        }
+    }
+    .ant-modal-close-x{
+        height:33px;
+        line-height: 33px;
+    }
+    .ant-modal-title{
+        font-size: 12px;
+        color: #fff !important;
+        height: 36px;
+        line-height: 36px;
+    }
+    .ant-modal-header{
+        height: 36px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px 0 15px;
+        box-sizing: border-box;
+        background: #6287D9;
+       
+    }
+    .modal-footer {
+        background: #F4F5F7;
+        height: 60px;
+        padding: 15px 0;
+        display: flex;
+        justify-content: center;
+        .confirmBtn{
+            margin-right: 10px;
+            background: #4A8FF7;
+            color: #fff;
+            height:30px;
+            width:120px;
+        }
+        .cancelBtn{
+            height:30px;
+            width:120px;
+        }
+    }
+}
+/*
+   设置防区SetDefence
+*/
+.defenceModal{
+    width:500px;
+    border: 1px solid #6287D9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 5px 0px 15px rgba(20, 21, 23, 1);
+    background: #fff;
+    color: #444;
+    padding:0 !important;
+    .ant-modal-close{
+        width: 36px;
+        .ant-modal-close-x{
+            height:36px;
+            width: 36px;
+            line-height: 36px;
+        }
+    }
+    
+    .ant-modal-header {
+        height: 36px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px 0 15px;
+        box-sizing: border-box;
+        background: #6287D9;
+        color: #fff;
+        .ant-modal-title{
+            font-size: 12px;
+            line-height: 36px;
+            color: #fff;    
+        }
+    }
+    .defenceContainer{
+        width:480px;
+        font-size: 12px;
+        padding: 10px 10px 0px 10px;
+        color:#444;
+        margin: 0 auto;
+        .defenceName{
+            margin-left:14px;
+            .ant-select-selection{
+                width:300px;
+                height:25px;
+                line-height: 25px;
+                font-size: 12px;
+            }
+        }
+        .ant-select-selection__rendered,
+        .ant-select-selection-selected-value{
+            height: 25px;
+            line-height: 25px;
+        }
+        .defenceStyle{
+            margin-top:10px;
+            .itemStyle{
+               display: flex;
+               justify-content: space-between;
+               margin-left:14px;
+              
+               .el-color-picker__icon{
+                display: none;
+                }
+               .el-color-picker__trigger{
+                    height: 25px;
+                    padding:0;
+                    width: 98px;
+                    .el-color-picker__color{
+                        width:98px;
+                        height:24px;
+                    }
+               }
+               li{
+                   margin-bottom:10px;
+                   line-height: 25px;
+                   height: 25px;
+                   display: flex;
+               }
+               .leftStyle{
+                    width:170px;
+                    .borderColor{
+                        display: flex;
+                        line-height: 25px;
+                        .el-color-picker__trigger{
+                            .l-color-picker__color{
+                                width:80px;
+                            }
+                        } 
+                    }
+                    .defenceColor{
+                        margin-top:10px;
+                        display: flex;
+                        width:230px;
+                    }
+                    .ant-input{
+                        width:100px;
+                        padding: 0;
+                    }
+               }  
+               .rightStyle{
+                   width:170px;
+                  
+                   .ant-input{
+                        width:100px;
+                        padding: 0;
+                    }
+                    .ant-select-selection{
+                        width:100px;
+                        height:25px;
+                        line-height: 25px;
+                        font-size: 12px;
+                    }
+               }
+            }
+        }
+        .ant-input{
+            height:25px;
+            line-height: 25px;
+            width:300px;
+            box-sizing: border-box;
+        }
+    }
+    .modal-footer {
+        background: #F4F5F7;
+        height: 50px;
+        width: 99%;
+        padding: 20px 0;
+        text-align: center;
+        .confirmBtn{
+            margin-right: 10px;
+            background: #4A8FF7;
+            color: #fff;
+            height:30px;
+            width:120px;
+        }
+        .cancelBtn{
+            height:30px;
+            width:120px;
+        }
+    }
+}
+/*
+   绘制防区DrawDefence
+*/
+.drawDefence{
+    position: absolute;
+    line-height: 32px;
+    top:20px;
+    right:100px;
+    .areaCon{
+        &:hover{
+            color: #4381DE;
+            .areaIcon{
+                background: url("../Image/area_hover.png") no-repeat;
+            }
+        }
+        .areaIcon{
+            background: url("../Image/area_default.png") no-repeat;
+            height:20px;
+            width:20px;
+            display: block;  
+        }
+    }
+    .areaOperation{
+        position: absolute;
+        height: 30px;
+        top: 35px;
+        right: 0;
+        border: 1px solid black;
+        background: #fff;
+        i{
+            padding: 0 10px;
+            line-height: 30px;
+        }
+                /*antd样式修改*/ 
+        .ant-dropdown-menu-item{
+            height: 32px;
+            padding: 0!important;
+        //    padding-left: 8px;
+        //    padding-right: 10px;
+        }
+        .ant-dropdown-menu-item a{
+            height: 32px;
+            padding: 0!important;
+            margin: 0!important;
+            padding-left: 8px;
+            padding-right: 10px;
+        }
+        .ant-dropdown-menu-item:hover{
+            background: none;
+        }
+        ul.ant-dropdown-menu{
+            background-color: rgb(244, 245, 247);
+            box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+            border-radius: 0px;
+            padding-left: 8px;
+            padding-right: 10px;
+        }
+    }
+ }
+//  防区删除确认弹框样式
+ .confirmDelDefence{
+    button, html [type="button"], [type="reset"], [type="submit"] {
+        width: 100px;
+    }
+    .ant-confirm-btns {
+        margin-top: 24px;
+        float: none !important; 
+        display: flex !important;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+    }
+    .ant-confirm-btns button + button {
+        margin-left: 8px;
+        margin-bottom: 0;
+        width: 100px;
+    }
+ } 
+//防区删除和确认按钮
+ #operate{
+    display: none;
+    position: absolute;
+    cursor: pointer;
+    justify-content: space-between;
+    width:35px;
+}
+
+// 右键弹框样式
+#gpsContextmenu_container li{
+    line-height: 25px;
+    height: 25px;
+    width:60px;
+    text-align: center;
+    border-top: 1px solid gray;
+    color: #333;
+    cursor: pointer !important;
+}
+/*
+   轨迹
+*/
+.goBack{
+    position: absolute;
+    top: 17px;
+    left: 35px;
+    z-index: 1;
+    color: rgb(100, 173, 255);
+}
+.adjustSpeed{
+    width: 30%;
+    height: 40px;
+    position: absolute;
+    z-index: 1;
+    bottom: 2.7%;
+    border-radius: 5px;
+    background-color: rgb(254, 254, 254);
+    left: 50%;
+    margin-left: -250px;
+    .progress{
+        width: 70%;
+        margin-left: 4px;
+        position: absolute;
+        margin-top: 11px;
+        >div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .ant-progress-text{
+                width: 3em;
+            }
+        }
+    }  
+    .adjustSlider{
+        background-color: snow;
+        width: 28px;
+        height: 181px;
+        position: absolute;
+        margin-top: -245px;
+        border-radius: 6px;
+        margin-left: 461px;
+        padding-bottom: 14px;
+        padding-top: 5px;
+    } 
+}
+.imgSize{
+    width: 35px;
+    height: 35px;
+    margin-top: 4px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.carImgSize{
+    width: 35px;
+    height: 35px;
+    float: right;
+    margin-top: 5px;
+    cursor: pointer;
+}
+/***
+   卡口相机
+*/
+.hidden {
+    display: none;
+}
+.show {
+    display: inline-block;
+  }
+#contexa_map{
+    background: #FFF;
+    border: 1px solid #878686;
+} 
+.menuItem:hover{
+    background-color: #1890ff75;
+}
+.menuItem {
+    background: #FFF; 
+    padding: 3px 10px;
+}
+.detailTooltip {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5); 
+    color: white;
+    padding: 4px 8px;
+    opacity: 0.7;
+    white-space: nowrap;
+}   
+.map-resource{
+    padding-top:20px;
+    min-height: 400px;
+    .tree-search{
+        height:25px;
+        input{
+            font-size:12px;
+        }
+        .tree-search-icon{
+            top:5px;
+        }
+    }
+}
+.map-table{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 8px;
+}
+.map-resource > .ant-tabs-card > .ant-tabs-content {
+    height: 500px;
+    margin-top: -16px;
+}   
+.map-resource > .ant-tabs-card > .ant-tabs-content {
+    height: 120px;
+    margin-top: -16px;
+}
+.map-resource > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
+    background: #fff;
+    padding: 16px;
+}
+.map-resource > .ant-tabs-card > .ant-tabs-bar {
+    border-color: #fff;
+}
+.map-resource > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+    border-color: transparent;
+    background: transparent;
+}
+.map-resource > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+    border-color: #fff;
+    background: #fff;
+}
+.map-table span {
+    width: 50px;
+    margin: 0px 29px;
+    padding: 0px 2px;
+    font-size: 15px;
+    cursor: pointer
+}
+.map-table-border {
+    border-bottom: 1px solid;
+}
+
+.map-tree-check{
+    border-bottom: 3px solid #1890ff;
+    width: 60px;
+    margin-left: 28px; 
+    float: left;
+}
+
+/***
+   MapSelect 框选
+*/
+.MapSelect{
+    margin: 0 auto;
+    ul{
+        list-style: none;
+        padding: 0;
+    }
+    .ant-modal-header{
+        background: #6287D9;
+        height:36px;
+        padding: 0 0 0 13px;
+        .ant-modal-title{
+            line-height: 36px;
+            height:36px;
+            color: #fff;
+            font-size: 14px;
+        }
+    }
+    .ant-modal-body{
+        padding: 0;
+        height:612px;
+    }
+    .modal-footer{
+        height:60px;
+        box-sizing: border-box;
+        background:rgba(244,245,247,1);
+        line-height: 60px;
+        text-align: center;
+        box-shadow:1px 0px 0px rgba(224,227,230,1);
+    }
+    .MapSelect_container{
+        height:612px;
+        .MapSelect_wrapper{
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            .deviceList_wrapper{
+                height: 552px;
+                border-radius: 5px;
+                width:240px;
+                .title{
+                    display:flex;
+                    justify-content:space-between;
+                    padding:0 10px;
+                    height:40px;
+                    background:#ddd;
+                    align-items: center;
+                }
+                .list_container{
+                    width:100%;
+                    height:512px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    >ul{
+                        >li{
+                            padding: 0 10px;
+                            height:48px;
+                            line-height: 48px;
+                            position: relative;
+                            >span{
+                                display: inline-block;
+                                width:32px;
+                                height:32px;
+                                background-image: url(../Image/mapSelectedd_default.png);
+                                background-size:32px 32px;
+                                text-align: center;
+                                line-height:25px;
+                                color: #fff;
+                              }
+                            >i{
+                                display: inline-block;
+                                width:24px;
+                                height:24px;
+                                background-size:24px 24px;
+                                position: absolute;
+                                top:10px;
+                                right:5px;
+                              }
+                            &:hover{
+                                background: #E5F0FF;
+                                i{
+                                    background-image: url(../Image/del.png);
+                                    cursor: pointer;
+                                }
+                                span{
+                                    background-image: url(../Image/mapSelectedd.png);
+                                }
+                            } 
+                          }
+                    }
+                }
+            }
+
+        }
+    }
+    .ant-modal-close-x {
+        display: block;
+        font-style: normal;
+        vertical-align: baseline;
+        text-align: center;
+        text-transform: none;
+        text-rendering: auto;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 16px;
+        color: #fff;
+    }
+    .map_box{
+        position: relative;
+        flex:1;
+        height: 552px;
+        border-radius: 5px;
+    }
+    .serch_box{
+        position: absolute;
+        left:10px;
+        top:10px;
+    }
+    .select_menu{
+        position: absolute;
+        z-index: 100;  
+        top:10px;
+        right:50px;
+    }
+} 
