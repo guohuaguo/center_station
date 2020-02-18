@@ -18,6 +18,10 @@ const columns = [
  */
 export default class SnapDataSource extends Component {
     static propTypes = {
+        startTime: PropTypes.string,  //开始时间
+        endTime: PropTypes.string,    //结束时间
+        selectCam: PropTypes.array,  //选中的相机
+        //
         selectedNum: PropTypes.number,  //选中的数据量
         snapData: PropTypes.array     //单页十条抓拍数据
     }
@@ -56,6 +60,19 @@ export default class SnapDataSource extends Component {
         console.log(dateStrings);
         //时间变化了也要改变数据源
 
+    }
+
+    /**
+     * 获取保存在本界面的属性，供父组件调用
+     */
+    getCondition = () => {
+        //这里还没写好呢
+        let ret = {
+            startTime: this.state.startTime, //开始时间
+            endTime: this.state.endTime,   //结束时间
+            selectCam: []   //选择的相机
+        }
+        return ret;
     }
 
     render() {

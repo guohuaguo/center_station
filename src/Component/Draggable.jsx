@@ -6,7 +6,7 @@ const MyIcon = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1610606_hqgkmant07u.js', // 在 iconfont.cn 上生成
 })
 export default function Draggable(props) {
-    const { id, type, info, x, y, condition, treeUpdate, deleteSource,style } = props
+    const { id, type, info, x, y, condition, treeUpdate, deleteSource, style, onClick } = props
     const rule = new RegExp('small')
     
 
@@ -24,7 +24,9 @@ export default function Draggable(props) {
         if(e.target.nodeName !== 'I'){
             setActive(!active)
         }
-       
+        if (onClick && typeof onClick === 'function') {
+            onClick();
+        }
     }
 
     //鼠标悬停删除节点
