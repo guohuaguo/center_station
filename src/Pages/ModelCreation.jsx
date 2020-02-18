@@ -9,7 +9,7 @@ import OperatorAttribute from '../Component/OperatorAttribute/OperatorAttribute'
 import { connect } from 'react-redux';
 import lodash from 'lodash';
 import { setDataArray } from '../Redux/actions';
-import { PERSON, CAR } from '../Component/OperatorAttribute/Common'
+import { PERSON, CAR, PERSON_GROUP, CAR_GROUP } from '../Component/OperatorAttribute/Common'
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -22,7 +22,7 @@ function ModelCreation(props) {
 
     //常亮
     const dataSource = ['抓拍', '温州市户籍信息', '高位人员', '涉逃人员', '前科劣迹', '旅馆入口人脸抓拍', '沿海地区卡口抓拍'];
-    const atomicEng = ['交集', '并集', '差集', '积分', '条件过滤', '频次分析', '速度计算', '时差计算'];  //原子引擎
+    const atomicEng = ['交集', '并集', '差集', '积分', '条件过滤', '频次分析', '速度计算', '时差计算', '数据去重'];  //原子引擎
     const modelCom = ['密集预警', '涉稳失控预警', '遮挡预警']; //模型组件
 
     //state
@@ -119,7 +119,16 @@ function ModelCreation(props) {
             case '交集':
                 condition = {
                     output: '',   //输出成什么格式
-                    commonField: [PERSON[0]]  //公共字段，这边没根据人或者车分，直接先写死人的试试
+                    commonField: [PERSON[0]],  //公共字段，这边没根据人或者车分，直接先写死人的试试
+                    place: 0,  //0是按照名称 1是按照误差
+                    placeDiff: {
+                        compare: '<=',
+                        value: '50'
+                    },   //地点误差范围默认<=50，必须commonField中有olcae且place=0才有效
+                    timeDiff: {
+                        compare: '<=',
+                        value: '3'
+                    }   //时间误差范围默认<=3，必须commonField中有time才有效
                 }
                 break;
             case '并集':
@@ -130,19 +139,49 @@ function ModelCreation(props) {
                     inputA: '',   //数据源A
                     inputB: '', //数据源B
                     output: '', //输出数据源
-                    commonField: [PERSON[0]]  //公共字段，这边没根据人或者车分，直接先写死人的试试
+                    commonField: [PERSON[0]],  //公共字段，这边没根据人或者车分，直接先写死人的试试
+                    place: 0,  //0是按照名称 1是按照误差
+                    placeDiff: {
+                        compare: '<=',
+                        value: '50'
+                    },   //地点误差范围默认<=50，必须commonField中有olcae且place=0才有效
+                    timeDiff: {
+                        compare: '<=',
+                        value: '3'
+                    }   //时间误差范围默认<=3，必须commonField中有time才有效
                 }
                 break;
             case '积分':
                 //积分默认写在孩子里面weight
                 break;
             case '条件过滤':
+                //条件过滤都是数据库遍历出来的不太好写
                 break;
             case '频次分析':
+                condition = {
+                    groupField: [PERSON_GROUP[0]],  //分组字段，暂不区分人还是车
+                    compareChar: '>=',
+                    value: '0'
+                }
                 break;
             case '速度计算':
+                condition = {
+                    groupField: [PERSON_GROUP[0]],  //分组字段，暂不区分人还是车
+                    compareChar: '>=',
+                    value: '0'
+                }
                 break;
             case '时差计算':
+                condition = {
+                    groupField: [PERSON_GROUP[0]],  //分组字段，暂不区分人还是车
+                    compareChar: '<=',
+                    value: '3'
+                }
+                break;
+            case '数据去重':
+                condition = {
+                    groupField: [PERSON_GROUP[0]]  //数据去重的字段，暂不区分人还是车
+                }
                 break;
             default:
                 break;
@@ -339,7 +378,7 @@ function ModelCreation(props) {
                                     <div className='general_style'>
                                         {
                                             modelCom.map((item, index) => {
-                                                return <Draggable key={index} index={index} type={item} info='small' ></Draggable>
+                                                return <Draggable key={item.id} index={index} type={item} info='small' ></Draggable>
                                             })
                                         }
                                     </div>

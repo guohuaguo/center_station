@@ -10,6 +10,7 @@ import ConditionFilter from './ConditionFilter';
 import SpeedAnalysis from './SpeedAnalysis';
 import FrequencyAnalysis from './FrequencyAnalysis';
 import TimeCalculation from './TimeCalculation';
+import DuplicateRemoval from './DuplicateRemoval';
 import './OperatorAttribute.less';
 import { connect } from 'react-redux';
 import lodash from 'lodash';
@@ -51,6 +52,7 @@ class OperatorAttribute extends Component {
      * 组件卸载
      */
     componentWillUnmount() {
+        console.log('我卸载了')
         const { id } = this.props;
         if (this.child) {
             //这边处理成不同的属性传入到对应组件即可
@@ -76,7 +78,6 @@ class OperatorAttribute extends Component {
                 case '积分': {
                     //遍历元素替换
                     let childData = this.child.getCondition(); //从子界面获取数据
-                    console.log(childData)
                     //这里也没有dispatch到时候再改吧
                     const { dataArray } = this.props;
                     for (let i = 0; i < dataArray.length; i++) {
@@ -91,12 +92,26 @@ class OperatorAttribute extends Component {
                 }
                 case '条件过滤':
                     break;
-                case '频次分析':
+                case '频次分析': {
+                    let childData = this.child.getCondition(); //从子界面获取数据
+                    this._modifyCondition(id, childData);
                     break;
-                case '速度计算':
+                }
+                case '速度计算': {
+                    let childData = this.child.getCondition(); //从子界面获取数据
+                    this._modifyCondition(id, childData);
                     break;
-                case '时差计算':
+                }
+                case '时差计算': {
+                    let childData = this.child.getCondition(); //从子界面获取数据
+                    this._modifyCondition(id, childData);
                     break;
+                }
+                case '数据去重': {
+                    let childData = this.child.getCondition(); //从子界面获取数据
+                    this._modifyCondition(id, childData);
+                    break;
+                }
                 default:
                     break;
             }
@@ -223,16 +238,29 @@ class OperatorAttribute extends Component {
                 {
                     let children = this._findAllChildren(id);
                     this.condition.children = children;//增加children属性
+                    break;
                 }
-                break;
             case '条件过滤':
                 break;
             case '频次分析':
-                break;
+                {
+                    this.condition = item.condition;
+                    break;
+                }
             case '速度计算':
-                break;
+                {
+                    this.condition = item.condition;
+                    break;
+                }
             case '时差计算':
+                {
+                    this.condition = item.condition;
+                    break;
+                }
+            case '数据去重': {
+                this.condition = item.condition;
                 break;
+            }
             default:
                 break;
         }
@@ -255,15 +283,17 @@ class OperatorAttribute extends Component {
             case '积分':
                 return (<Calculus ref={(ref) => { this.child = ref }} {...this.condition} />)
             case '条件过滤':
-                return (<ConditionFilter ref={(ref) => { this.child = ref }} />)
+                return (<ConditionFilter ref={(ref) => { this.child = ref }}  {...this.condition} />)
             case '频次分析':
-                return (<FrequencyAnalysis ref={(ref) => { this.child = ref }} />)
+                return (<FrequencyAnalysis ref={(ref) => { this.child = ref }}  {...this.condition} />)
             case '速度计算':
-                return (<SpeedAnalysis ref={(ref) => { this.child = ref }} />)
+                return (<SpeedAnalysis ref={(ref) => { this.child = ref }}  {...this.condition} />)
             case '时差计算':
-                return (<TimeCalculation ref={(ref) => { this.child = ref }} />)
+                return (<TimeCalculation ref={(ref) => { this.child = ref }}  {...this.condition} />)
+            case '数据去重':
+                return (<DuplicateRemoval ref={(ref) => { this.child = ref }}  {...this.condition} />)
             default:
-                return (<NormalDataSource ref={(ref) => { this.child = ref }} />)
+                return (<NormalDataSource ref={(ref) => { this.child = ref }}  {...this.condition} />)
         }
     }
 

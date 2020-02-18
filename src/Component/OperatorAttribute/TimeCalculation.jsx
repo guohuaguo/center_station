@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Steps, Row, Col, InputNumber, Select } from 'antd';
+import { Icon, Steps, Row, Col, InputNumber, Select, Checkbox } from 'antd';
+import { PERSON_GROUP, CAR_GROUP } from './Common';
 import './TimeCalculation.less';
 
 const { Step } = Steps;
@@ -11,21 +12,32 @@ const { Option } = Select;
  */
 export default class TimeCalculation extends Component {
     static propTypes = {
-
-
+        status: PropTypes.number,    //是人:0还是车:1 暂时无用
+        groupField: PropTypes.array //默认勾选的字段
     }
     static defaultProps = {
-
+        status: 0,
     }
     constructor(props) {
         super(props);
         this.state = {
-
+            checkValue: this.props.groupField,  //勾选值
         };
-        this.compareChar = '<=';//比较符
-        this.time = 50;  //速度
+        this.compareChar = this.props.compareChar;//比较符
+        this.time = this.props.value;  //速度
+        this.option = [];  //checkgroup 
     }
 
+    componentWillMount() {
+        let option = [];
+        (this.props.status === 0 ? PERSON_GROUP : CAR_GROUP).forEach((item) => {
+            option.push({
+                label: item,
+                value: item
+            })
+        })
+        this.option = option;
+    }
 
     /**
      * 比较符号改变>=
@@ -44,18 +56,50 @@ export default class TimeCalculation extends Component {
     }
 
     /**
+     * 勾选项变更
+     * @param {Array} checkValue 勾选项
+     */
+    _checkChanged = (checkValue) => {
+        //这边记录一下checkValue然后向上传
+        this.setState({
+            checkValue: checkValue
+        })
+    }
+
+
+    /**
+     * 获取保存在本界面的属性，供父组件调用
+     */
+    getCondition = () => {
+        //不管怎么勾选 简单点 直接全部透传出去
+        let ret = {
+            groupField: this.state.checkValue,
+            compareChar: this.compareChar,
+            value: this.time
+        }
+        return ret;
+    }
+
+    /**
      * 获取描述的节点
      * @param {*} index 索引第一步0 第二步1
      */
     _getDescription = (index) => {
+        const { groupField } = this.props;
         if (index === 0) {
-            return (<span style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
-                将数据按照某一维度进行分组，并统计每个分组数量：
-                <br />
-                （车辆维度：车牌号码；车辆颜色
-                <br />
-                人的维度：证件号码）
-            </span>)
+            return (
+                <Fragment>
+                    <span style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
+                        请选择数据分组条件，并统计每个分组数量：
+                 </span>
+                    <div>
+                        <Checkbox.Group
+                            options={this.option}
+                            defaultValue={groupField}
+                            onChange={this._checkChanged}
+                        />
+                    </div>
+                </Fragment>)
         } else {
             return (
                 <div className='TimeCalculation_main_step2' >
@@ -67,7 +111,7 @@ export default class TimeCalculation extends Component {
                             次数：
                         </Col>
                         <Col span={6}>
-                            <Select defaultValue='<=' onChange={this._compareCharChange}>
+                            <Select defaultValue={this.compareChar} onChange={this._compareCharChange}>
                                 <Option value='<'>{`<`}</Option>
                                 <Option value='<='>{`<=`}</Option>
                                 <Option value='='>=</Option>
@@ -76,7 +120,7 @@ export default class TimeCalculation extends Component {
                             </Select>
                         </Col>
                         <Col span={6}>
-                            <InputNumber min={0} defaultValue={50} style={{ width: '100%' }} onChange={this._timeChange} />
+                            <InputNumber min={0} defaultValue={this.time} style={{ width: '100%' }} onChange={this._timeChange} />
                         </Col>
                         <Col offset={1}>
                             分

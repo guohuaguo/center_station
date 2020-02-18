@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Checkbox, Row, Col, Dropdown, Menu } from 'antd';
+import { Icon, Checkbox, Row, Col, Dropdown, Menu, Radio, InputNumber, Select, Tooltip } from 'antd';
 import { PERSON, CAR, getOrderChar } from './Common'
 import './IntersectionSet.less';
 
+const { Option } = Select;
 
 /**
  * 交集
@@ -22,9 +23,14 @@ export default class IntersectionSet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            output: this.props.output //输出数据源
+            output: this.props.output, //输出数据源
+            checkValue: this.props.commonField,  //勾选值
+            place: this.props.place//地点选择 0是名称 1是地点差
         };
-        this.checkValue = this.props.commonField
+        this.placeCompare = this.props.placeDiff.compare;  //地点比较符 
+        this.placeValue = this.props.placeDiff.value;  //地点值
+        this.timeCompare = this.props.timeDiff.compare;  //时间比较符
+        this.timeValue = this.props.timeDiff.value;//时间值
     }
 
     /**
@@ -44,7 +50,9 @@ export default class IntersectionSet extends Component {
      */
     _checkChanged = (checkValue) => {
         //这边记录一下checkValue然后向上传
-        this.checkValue = checkValue;
+        this.setState({
+            checkValue: checkValue
+        })
     }
 
     /**
@@ -74,19 +82,66 @@ export default class IntersectionSet extends Component {
     }
 
     /**
+     * 时间比较符改变
+     */
+    _timeCompareCharChange = (value) => {
+        this.timeCompare = value;
+    }
+
+    /**
+     * 时间值改变
+     */
+    _timeValueChange = (value) => {
+        this.timeValue = value;
+    }
+
+    /**
+     * 地点比较符改变
+     */
+    _placeCompareCharChange = (value) => {
+        this.placeCompare = value;
+    }
+
+    /**
+     * 时间值改变
+     */
+    _placeValueChange = (value) => {
+        this.placeValue = value;
+    }
+
+    /**
+     * 单选框变化
+     */
+    _radioChange = (e) => {
+        this.setState({
+            place: e.target.value
+        })
+    }
+
+    /**
      * 获取保存在本界面的属性，供父组件调用
      */
     getCondition = () => {
+        //不管怎么勾选 简单点 直接全部透传出去
         let ret = {
             output: this.state.output,
-            commonField: this.checkValue
+            commonField: this.state.checkValue,
+            place: this.state.place,
+            placeDiff: {
+                compare: this.placeCompare,
+                value: this.placeValue
+            },   //地点误差范围默认<=50，必须commonField中有olcae且place=0才有效
+            timeDiff: {
+                compare: this.timeCompare,
+                value: this.timeValue
+            }   //时间误差范围默认<=3，必须commonField中有time才有效
         }
         return ret;
     }
 
     render() {
         const { children, commonField, status } = this.props;
-        const { output } = this.state;
+        const { output, checkValue, place } = this.state;
         return (
             <div className='Intersection_main'>
                 {output === '' && <div className='Intersection_main_tips' >
@@ -104,7 +159,14 @@ export default class IntersectionSet extends Component {
                             )
                         })}
                         < tr key={`tr_${children.length}`} >
-                            <td className='Intersection_main_table_td1'>输出数据源</td>
+                            <td className='Intersection_main_table_td1'>
+                                <span>
+                                    输出数据源
+                                    <Tooltip title='暂时没想好哦 '>
+                                        <Icon type="exclamation-circle" />
+                                    </Tooltip >
+                                </span>
+                            </td>
                             <td  >
                                 <Dropdown overlay={() => this._getOverLay()}>
                                     {<span style={{ cursor: 'pointer', color: output === '' ? '#bfbfbf' : '' }}>{output === '' ? '请选择' : output}</span>}
@@ -121,6 +183,72 @@ export default class IntersectionSet extends Component {
                                 <Checkbox value={item} style={{ marginTop: '10px' }}>{item}</Checkbox>
                             </Col>)
                         })}
+                    </Row>
+                    <Row>
+                        <Checkbox value='place' style={{ marginTop: '10px' }}>
+                            地点
+                           {checkValue.indexOf("place") > -1 &&
+                                <Fragment>
+                                    <span>
+                                        (
+                            <Radio.Group defaultValue={place} style={{ marginLeft: '10px' }} onChange={this._radioChange}>
+                                            <Radio value={0}>名称</Radio>
+                                            <Radio value={1}>误差</Radio>
+                                        </Radio.Group>
+                                        )
+                                        </span>
+                                    {this.state.place === 1 && <div>
+                                        <Row style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
+                                            <Col span={4}>
+                                                误差：
+                                         </Col>
+                                            <Col span={6}>
+                                                <Select defaultValue={this.placeCompare} onChange={this._placeCompareCharChange}>
+                                                    <Option value='<'>{`<`}</Option>
+                                                    <Option value='<='>{`<=`}</Option>
+                                                    <Option value='='>=</Option>
+                                                    <Option value='>'>></Option>
+                                                    <Option value='>='>>=</Option>
+                                                </Select>
+                                            </Col>
+                                            <Col span={6}>
+                                                <InputNumber min={0} max={290} defaultValue={this.placeValue} style={{ width: '100%' }} onChange={this._placeValueChange} />
+                                            </Col>
+                                            <Col offset={1}>
+                                                米
+                                        </Col>
+                                        </Row>
+                                    </div>}
+                                </Fragment>
+                            }
+                        </Checkbox>
+                    </Row>
+                    <Row>
+                        <Checkbox value='time' style={{ marginTop: '10px' }}>
+                            时间
+                           {checkValue.indexOf("time") > -1 && <div>
+                                <Row style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
+                                    <Col span={4}>
+                                        误差：
+                                         </Col>
+                                    <Col span={6}>
+                                        <Select defaultValue={this.timeCompare} onChange={this._timeCompareCharChange}>
+                                            <Option value='<'>{`<`}</Option>
+                                            <Option value='<='>{`<=`}</Option>
+                                            <Option value='='>=</Option>
+                                            <Option value='>'>></Option>
+                                            <Option value='>='>>=</Option>
+                                        </Select>
+                                    </Col>
+                                    <Col span={6}>
+                                        <InputNumber min={0} max={290} defaultValue={this.timeValue} style={{ width: '100%' }} onChange={this._timeValueChange} />
+                                    </Col>
+                                    <Col offset={1}>
+                                        分
+                                        </Col>
+                                </Row>
+                            </div>}
+                        </Checkbox>
                     </Row>
                 </Checkbox.Group>
             </div >

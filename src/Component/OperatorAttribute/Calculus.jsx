@@ -42,7 +42,7 @@ export default class Calculus extends Component {
         const { children } = this.props;
         let ret = lodash.cloneDeep(children);
         for (let i = 0; i < ret.length; i++) {
-            ret[i].weight = document.getElementById(`input_${i}`).value;
+            ret[i].weight = document.getElementById(`input_${i}`).value === '' ? undefined : Number(document.getElementById(`input_${i}`).value);
         }
         return ret;
     }
@@ -62,8 +62,7 @@ export default class Calculus extends Component {
                                 <tr key={`tr_${index}`} >
                                     <td >{`${item.type}`} </td>
                                     <td className='Calculus_main_table_td2'>
-                                        <input id={`input_${index}`} type='number' value={item.weight} placeholder="请输入数字" min={0}  >
-                                            {/* {item.weight === '' ? undefined : item.weight} */}
+                                        <input id={`input_${index}`} type='number' defaultValue={item.weight} placeholder="请输入数字" min={0}  >
                                         </input>
                                     </td>
                                 </tr>
