@@ -52,7 +52,6 @@ class OperatorAttribute extends Component {
      * 组件卸载
      */
     componentWillUnmount() {
-        console.log('我卸载了')
         const { id } = this.props;
         if (this.child) {
             //这边处理成不同的属性传入到对应组件即可

@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import lodash from 'lodash';
 import { setDataArray } from '../Redux/actions';
 import { PERSON, CAR, PERSON_GROUP, CAR_GROUP } from '../Component/OperatorAttribute/Common'
+import ProcessTree from '../CommonComponent/ProcessTree';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -291,6 +292,37 @@ function ModelCreation(props) {
         setActiveId(id);
     }
 
+    /**
+     * 保存或者发布模型
+     */
+    function saveModel() {
+        const { dataArray } = props;
+        //处理逻辑不是很严谨，后期还需要再改(没有parentID，但是有人指向他 说明就是根节点)
+        let treeArray = lodash.cloneDeep(dataArray);
+        let noParent = []; //没有parentId属性的家伙
+        for (let i = 0; i < treeArray.length; i++) {
+            if (!treeArray[i].parentId) {
+                noParent.push(treeArray[i]);
+            }
+        }
+        let rootId = '';
+        for (let i = noParent.length - 1; i > -1; i--) {
+            treeArray.map((item) => {
+                if (item.parentId === noParent[i].id) {
+                    rootId = noParent[i].id;
+                }
+            })
+        }
+        if (rootId === '') {
+            return;
+        }
+        treeArray.map((item) => {
+            if (item.id === rootId) {
+                item.parentId = 'root';
+            }
+        })
+        ProcessTree.saveModel(modelName, treeArray);
+    }
 
     return (
         < div className='mcreation' >
@@ -303,7 +335,7 @@ function ModelCreation(props) {
                     <Input id='modelname' type='text' onChange={editName} value={modelName} readOnly></Input>
                     <Icon type='edit' onClick={mouseFous}></Icon>
                 </div>
-                <div style={{ lineHeight: 0, marginRight: 10 }}>
+                <div style={{ lineHeight: 0, marginRight: 10 }} onClick={saveModel}>
                     <Icon type='save' style={{ fontSize: 30, margin: '10px 0px' }}></Icon>
                     <p >保存</p>
                 </div>
