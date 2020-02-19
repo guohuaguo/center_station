@@ -1,0 +1,29 @@
+.modelshow{
+    width: calc(100vw);
+    height: calc(100vh - 50px);
+    background-color: white;
+
+    &_header {
+        h1{
+            font-weight: 700;
+            display: inline;
+            margin: 20px;
+        }
+        height: 70px;
+        border-bottom: 1px solid #e8e8e8;
+        line-height: 70px;
+
+        &_float {
+            float: right;
+            margin-right: 20px;
+        }
+    }
+
+    &_content{
+        width: calc(100vw);
+        height: calc(100vh - 170px);
+        display: flex;
+        flex-wrap: wrap;
+        overflow-y: auto;
+    }
+}

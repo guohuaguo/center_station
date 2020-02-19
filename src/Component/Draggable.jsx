@@ -3,7 +3,7 @@ import './Draggable.less';
 import { Icon } from 'antd';
 
 const MyIcon = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1610606_hqgkmant07u.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1610606_snr33964drg.js', // 在 iconfont.cn 上生成
 })
 export default function Draggable(props) {
     const { id, type, info, x, y, condition, treeUpdate, deleteSource, style, onClick } = props

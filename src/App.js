@@ -7,6 +7,7 @@ import ApplicationCenter from './Pages/ApplicationCenter';
 import ApplicationStation from './Pages/ApplicationStation';
 import Other from './Pages/Other';
 import ModelCreation from './Pages/ModelCreation';
+import ModelShow from './Pages/ModelShow';
 import { Page } from './Config.js';
 
 const { Header, Content, Footer } = Layout
@@ -62,7 +63,8 @@ function App() {
                 return judgeRoute(item)
               })
             }
-            <Route key='/model' path='/model' component={ModelCreation} />
+            <Route key='/station/modelcreate' path='/creation' component={ModelCreation} />
+            <Route key='/model/show' path='/show' exact component={ModelShow} />
           </Content>
           <Footer style={{ background: 'black' }}></Footer>
         </Layout>

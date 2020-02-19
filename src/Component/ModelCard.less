@@ -1,0 +1,79 @@
+.modelcard {
+    width: 350px;
+    height: 230px;
+    margin: 10px;
+    border: 1px solid #e8e8e8;
+
+    &_img {
+        position: relative;
+        width: 350px;
+        height: 150px;
+
+        img {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 350px;
+            height: 150px;
+        }
+
+        &_content {
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            width: 350px;
+            height: 150px;
+
+            &_ellipsis {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                color: white;
+                font-size: 22px;
+            }
+
+            &_delete {
+                position: absolute;
+                left: 330px;
+                top: 22px;
+                color: black;
+                background-color: white;
+                width: 140px;
+                padding: 10px;
+                z-index: 2;
+            }
+
+            &_button {
+                padding: 10%;
+                .ant-btn {
+                    display: block;
+                    margin: 10px auto;
+
+                }
+            }
+        }
+    }
+
+    &_content {
+        margin: 10px;
+
+        &_name {
+            .ant-input {
+                width: 100px;
+                border: none;
+                text-align: center;
+                padding: 0px;
+            }
+        }
+
+        &_person {
+            .anticon {
+                font-size: 22px;
+            }
+
+            >span {
+                padding-left: 10px;
+            }
+        }
+    }
+}

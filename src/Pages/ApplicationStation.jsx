@@ -6,7 +6,7 @@ import './ApplicationStation.less';
 
 const { Search } = Input;
 const MyIcon = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1610606_ic57134tarh.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1610606_snr33964drg.js', // 在 iconfont.cn 上生成
 });
 export default function ApplicationStation(props) {
     const [selectedKeys, setSelect] = useState(['我的模型'])
@@ -15,7 +15,7 @@ export default function ApplicationStation(props) {
     }
 
     function modelCreate() {
-        props.history.push('/model')
+        props.history.push('/creation')
     }
     return (
         <div className='apstation'>
