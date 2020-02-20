@@ -15,6 +15,8 @@ import './OperatorAttribute.less';
 import { connect } from 'react-redux';
 import lodash from 'lodash';
 import { setDataArray } from '../../Redux/actions';
+import { message } from 'antd';
+
 
 
 /**
@@ -163,6 +165,89 @@ class OperatorAttribute extends Component {
     }
 
     /**
+     * 根据id查找到该id下的第一个孩子，但是返回还是一个数组
+     * @param {*} id 
+     */
+    _findFirstChildren = (id) => {
+        let retArray = [];
+        const { dataArray } = this.props;
+        for (let i = 0; i < dataArray.length; i++) {
+            if (dataArray[i].parentId === id) {
+                retArray.push(dataArray[i]);
+                break;
+            }
+        }
+        return retArray;
+    }
+
+
+
+    /**
+     * 获取某个id的源数据
+     * @param {Object} item 某一项 模型树
+     * @param {Object} treeArray  模型树
+     */
+    _getOriginalItem(item) {
+        let ret = ''; //
+        switch (item.type) {
+            case '交集':
+                {
+                    console.log(item);
+                    if (item.condition.output === '') {
+                        message.error(`交集输出源数据未设置，请设置输出源数据`)
+                        break;
+                    }
+                    //找到上一个的id
+                    let child = this._findFirstItembyId(item.condition.output.id);
+                    ret = this._getOriginalItem(child);
+                    break;
+                }
+            case '并集':
+                {
+                    //随便找一个向上找即可，反正都一样
+                    let child = this._findFirstChildren(item.id);
+                    if (child.length === 0) {
+                        message.error(`不存在数据源连接${item.type}！请设置好数据源`)
+                        break;
+                    }
+                    ret = this._getOriginalItem(child[0]);
+                    break;
+                }
+            case '差集':
+                {
+                    if (item.condition.output === '') {
+                        message.error(`差集输出源数据未设置，请设置输出源数据`)
+                        break;
+                    }
+                    //找到上一个的id
+                    let child = this._findFirstItembyId(item.condition.output.id);
+                    ret = this._getOriginalItem(child);
+                    break;
+                }
+            case '积分':
+                {
+                    message.error('模型错误！积分只可被作为最后的算子！')
+                    break;
+                }
+            case '条件过滤' || '频次分析' || '速度计算' || '时差计算' || '数据去重':
+                {//向上找到子数据源
+                    let child = this._findFirstChildren(item.id);
+                    if (child.length === 0) {
+                        message.error(`不存在数据源连接${item.type}！请设置好数据源`)
+                        break;
+                    }
+                    ret = this._getOriginalItem(child[0]);
+                    break;
+                }
+            default:
+                ret = item;
+                break;
+        }
+        return ret;
+    }
+
+
+    /**
      * 根据id修改条件
      * @param {*} id 
      * @param {*} condition 
@@ -240,6 +325,9 @@ class OperatorAttribute extends Component {
                     break;
                 }
             case '条件过滤':
+                //向上找到子数据源
+                this.condition = this._getOriginalItem(item);
+                console.log('数据源', this.condition);
                 break;
             case '频次分析':
                 {

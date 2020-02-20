@@ -5,7 +5,13 @@ import lodash from 'lodash';
  */
 export default class ProcessTree {
 
+    //#region 对外的公有方法
 
+    /**
+     * 保存和下发模型
+     * @param {String} name 模型名称
+     * @param {Array} treeArray 模型树
+     */
     static saveModel(name, treeArray) {
         console.log('treeArray', treeArray);
         //将树形的数组保存成json格式存到数据库
@@ -16,6 +22,7 @@ export default class ProcessTree {
         //执行sql语句将返回值返回到UI界面告诉保存是否成功,如果成功
         console.log('处理步骤', this._dealStep(this._wideTraversal(this._treeArray2Data(treeArray))));
     }
+    //#endregion
 
     /**
      * 将treeArray初始化成treeData(外传的数据转换成树形结构)

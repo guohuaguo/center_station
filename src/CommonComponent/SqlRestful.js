@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+
+const SERVER_ADDR = 'http://';
+const TOKEN = 'default_authorization';
+
 /**
  * SQL化请求接口
  */
@@ -15,7 +19,7 @@ export default class SqlRestful {
                 ...fetchObj,
                 timeout: 30000,
                 headers: {
-                    'Authorization': 'default',
+                    'Authorization': TOKEN,
                     'Content-Type': 'application/json'
                 }
             }).then((res) => {
@@ -25,4 +29,5 @@ export default class SqlRestful {
             })
         });
     }
+
 }

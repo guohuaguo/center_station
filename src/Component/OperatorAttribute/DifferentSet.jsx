@@ -81,7 +81,10 @@ export default class DifferentSet extends Component {
                 break;
             default:
                 this.setState({
-                    output: item.item.props.children
+                    output: {
+                        id: item.key,
+                        type: item.item.props.children
+                    }
                 })
                 break;
         }
@@ -224,7 +227,7 @@ export default class DifferentSet extends Component {
                             </td>
                             <td  >
                                 <Dropdown overlay={() => this._getOverLay()}>
-                                    {<span style={{ cursor: 'pointer', color: output === '' ? '#bfbfbf' : '' }}>{output === '' ? '请选择' : output}</span>}
+                                    {<span style={{ cursor: 'pointer', color: output === '' ? '#bfbfbf' : '' }}>{output === '' ? '请选择' : output.type}</span>}
                                 </Dropdown>
                             </td>
                         </tr>

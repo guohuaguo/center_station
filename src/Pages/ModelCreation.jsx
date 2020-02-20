@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { PageHeader, Icon, Input, Collapse, Radio, Modal, message, Button } from 'antd';
+import React, { useState } from 'react';
+import { PageHeader, Icon, Input, Collapse, Radio, message } from 'antd';
 import './ModelCreation.less';
+import $ from 'jquery';
 import { AllowSlide, Draggable, Arrow } from '../Component';
 import { SourceValue } from './Config.js';
 import moment from 'moment';
@@ -13,9 +14,8 @@ import ProcessTree from '../CommonComponent/ProcessTree';
 
 const { Search } = Input;
 const { Panel } = Collapse;
-const { confirm} = Modal;
 const MyIcon = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1610606_snr33964drg.js', // 在 iconfont.cn 上生成
+    scriptUrl: '//at.alicdn.com/t/font_1610606_hqgkmant07u.js', // 在 iconfont.cn 上生成
 })
 
 function ModelCreation(props) {
@@ -32,92 +32,19 @@ function ModelCreation(props) {
     const [showModal, setShowModal] = useState('none')        //
     const [source, setSource] = useState(SourceValue[0])
     const [activeId, setActiveId] = useState('') //激活选中的数据源或者算子 未选中为''
-    const [readOnly, setReadOnly] = useState(true)
-
-    //ref
-    const inputRef = useRef(null)//模型名称
 
     /**
      * 返回事件
      */
     function handelBack() {
-        confirm({
-            className: 'back_confirm',
-            title:'是否要在离开前保存对模型的更改',
-            icon: <Icon type="exclamation-circle" />,
-            content:<div style={{display:'flex', justifyContent:'end'}}>
-                <Button type='primary' onClick={okClick}>是</Button>
-                <Button onClick={noClick}>否</Button>
-                <Button onClick={cancelClick}>取消</Button>
-            </div>,
-            okButtonProps: {
-                style: { display: 'none' },
-            },
-            cancelButtonProps: {
-                style: { display: 'none' },
-            },
-
-        })
-    }
-
-    /**
-     * 点击返回提示框保存更改
-     */
-    function okClick(){
         props.history.push('/station')
-        Modal.destroyAll()
     }
-
-    /**
-     * 点击返回提示框不保存更改
-     */
-    function noClick(){
-        props.history.push('/station')
-        Modal.destroyAll()
-    }
-
-    /**
-     * 点击返回提示框取消返回
-     */
-    function cancelClick(){
-        Modal.destroyAll()
-    }
-
-    /**
-     * 编辑图标点击事件
-     */
     function mouseFous() {
-       inputRef.current.focus()
-       setReadOnly(false)
+        $('#modelname').focus()
+        document.getElementById('modelname').readOnly = false
     }
-    /**
-     * 模型名称输入框输入触发事件
-     * @param {Object} e 
-     */
     function editName(e) {
         setModelName(e.target.value)
-    }
-
-    /**
-     * 修改模型名称焦点离开时触发
-     * @param {Object} e
-     */
-    function inputOnBlur(e){
-        if(e.target.value === ''){
-            confirm({
-                title:'名称不能为空，请输入正确名称',
-                icon: <Icon type="exclamation-circle" />,
-                cancelButtonProps:{
-                    style:{ display:'none'}
-                },
-                onOk:() =>{
-                    inputRef.current.focus()
-                    
-                }
-            })
-        }else{
-            setReadOnly(true)
-        }
     }
     function sourceChange(e) {
         setSource(SourceValue[e.target.value])
@@ -148,17 +75,26 @@ function ModelCreation(props) {
     }
 
     /**
+     * 获取当前时间戳
+     */
+    function _getTimeStamp() {
+        return new Date().getTime();
+    }
+
+    /**
      * 进行放置
      */
+    // const [treeArray, setTreeArray] = useState([])//树形结构数据存储
     const [time, setTime] = useState(moment())
     function drop(ee) {
         const { dataArray, dispatch } = props;
         let tree = lodash.cloneDeep(dataArray);
-        let id = moment().valueOf() + ''
+        let id = _getTimeStamp();
         tree.push({
-            id,
+            id: id,
             x: ee.clientX,
             y: ee.clientY,
+            status: ee.dataTransfer.getData('status'),  //人还是车
             type: ee.dataTransfer.getData('type'),
             info: ee.dataTransfer.getData('info'),
             condition: getDefaultCondition(ee.dataTransfer.getData('type'))  //不同算子或者数据源携带了不同的属性，统一存放于此
@@ -257,16 +193,15 @@ function ModelCreation(props) {
 
     /**
      * 删除算子或数据源
-     * @param {String} id 
      */
     function deleteSource(propsId) {
         const { dataArray, dispatch } = props;
         let tree = lodash.cloneDeep(dataArray);
-        tree.forEach((item,index) =>{
-            if(item.id === propsId){
+        tree.forEach((item, index) => {
+            if (item.id === propsId) {
                 tree.splice(index, 1)
             }
-            if(item.parentId === propsId){
+            if (item.parentId === propsId) {
                 delete item.arrowId
                 delete item.arrow
                 delete item.parentId
@@ -274,13 +209,13 @@ function ModelCreation(props) {
         })
         dispatch(setDataArray(tree))  //注入redux
         setSvgRefresh(moment())
+        console.log(tree)
     }
 
 
     const [points, setPoints] = useState([])//存点的id
     /**
      * 更新treeArray，添加parentId，arrow对应箭头坐标，arrowId箭头id（供箭头删除使用）
-     * @param {Object} point 箭头的id和位置信息
      */
     function treeUpdate(point) {
         if (points.length === 1) {
@@ -323,7 +258,7 @@ function ModelCreation(props) {
      * 删除箭头同时更新treeArray
      * @param {String} id 箭头id
      */
-    const [svgRefresh,setSvgRefresh] = useState(moment())//箭头删除刷新页面
+    const [svgRefresh, setSvgRefresh] = useState(moment())//箭头删除刷新页面
     function deleteArrow(id) {
         const { dataArray, dispatch } = props;
         let tree = lodash.cloneDeep(dataArray);
@@ -336,6 +271,7 @@ function ModelCreation(props) {
         })
         dispatch(setDataArray(tree))  //注入redux
         setSvgRefresh(moment())
+        console.log(tree)
     }
 
     /**
@@ -357,13 +293,39 @@ function ModelCreation(props) {
         setActiveId(id);
     }
 
+
     /**
-     * 模型发布
+     * 判断是否可以被发布
      */
-    function modelCommit(){
-        props.history.push('/show')
-        message.info('提交成功')
-	const { dataArray } = props;
+    function canBePublish() {
+        const { dataArray } = props;
+        let ret = '';  //返回值如果是''则可被发布
+        let treeArray = lodash.cloneDeep(dataArray);
+        if (treeArray.length < 2) {
+            ret = '模型创建失败，请拖动更多元素进行连接！';
+            return;
+        }
+        let noParent = []; //没有parentId属性的家伙
+        for (let i = 0; i < treeArray.length; i++) {
+            if (!treeArray[i].parentId) {
+                noParent.push(treeArray[i]);
+            }
+        }
+        let rootId = [];  //根节点的集合
+        for (let i = noParent.length - 1; i > -1; i--) {
+            treeArray.map((item) => {
+                if (item.parentId === noParent[i].id) {
+                    rootId.push(noParent[i].id);
+                }
+            })
+        }
+    }
+
+    /**
+     * 保存或者发布模型
+     */
+    function saveModel() {
+        const { dataArray } = props;
         //处理逻辑不是很严谨，后期还需要再改(没有parentID，但是有人指向他 说明就是根节点)
         let treeArray = lodash.cloneDeep(dataArray);
         let noParent = []; //没有parentId属性的家伙
@@ -372,19 +334,20 @@ function ModelCreation(props) {
                 noParent.push(treeArray[i]);
             }
         }
-        let rootId = '';
+        let rootId = [];
         for (let i = noParent.length - 1; i > -1; i--) {
             treeArray.map((item) => {
                 if (item.parentId === noParent[i].id) {
-                    rootId = noParent[i].id;
+                    rootId.push(noParent[i].id);
                 }
             })
         }
-        if (rootId === '') {
+        if (rootId.length !== 1) {
+            message.error('模型下发失败：输出结果存在多个！')
             return;
         }
         treeArray.map((item) => {
-            if (item.id === rootId) {
+            if (item.id === rootId[0]) {
                 item.parentId = 'root';
             }
         })
@@ -392,19 +355,19 @@ function ModelCreation(props) {
     }
 
     return (
-        <div className='mcreation'>
+        < div className='mcreation' >
             <div className='mcreation_header'>
                 <PageHeader
                     title='返回'
                     onBack={handelBack}>
                 </PageHeader>
                 <div className='model_name' style={{ margin: '0px auto' }}>
-                    <Input ref={inputRef} onChange={editName} value={modelName} readOnly={readOnly} onBlur={inputOnBlur}></Input>
+                    <Input id='modelname' type='text' onChange={editName} value={modelName} readOnly></Input>
                     <Icon type='edit' onClick={mouseFous}></Icon>
                 </div>
-                <div style={{ lineHeight: 0, marginRight: 10 }}>
-                    <MyIcon type='icon-fa_bu' style={{ fontSize: 30, margin: '10px 0px' }} onClick={modelCommit}></MyIcon>
-                    <p >发布</p>
+                <div style={{ lineHeight: 0, marginRight: 10 }} onClick={saveModel}>
+                    <Icon type='save' style={{ fontSize: 30, margin: '10px 0px' }}></Icon>
+                    <p >保存</p>
                 </div>
             </div>
             <div style={{ display: 'flex' }}>
@@ -429,7 +392,7 @@ function ModelCreation(props) {
                                     <div className='general_style'>
                                         {
                                             dataSource.map((item, index) => {
-                                                return <Draggable key={index} index={index} type={item} info='small_source' ></Draggable>
+                                                return <Draggable key={index} index={index} type={item} info='small_source' status={0}></Draggable>
                                             })
                                         }
                                         <MyIcon type='icon-add' style={{ fontSize: 60 }} onClick={() => { setShowModal('block') }}></MyIcon>
@@ -438,7 +401,15 @@ function ModelCreation(props) {
                                 <Panel
                                     header='车辆'
                                     key='2'
-                                ></Panel>
+                                >
+                                    <div className='general_style'>
+                                        {
+                                            dataSource.map((item, index) => {
+                                                return <Draggable key={`car_${index}`} index={index} type={item} info='small_source' status={1}></Draggable>
+                                            })
+                                        }
+                                    </div>
+                                </Panel>
                             </Collapse>
                         </div>
                     </AllowSlide>

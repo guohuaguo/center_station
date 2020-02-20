@@ -78,7 +78,11 @@ export default class IntersectionSet extends Component {
      */
     _menuClick = (item) => {
         //这边以后可能还会稍微改下
-        this._selectOnChanged(item.item.props.children);
+        // this._selectOnChanged(item.item.props.children);
+        this._selectOnChanged({
+            id: item.key,
+            type: item.item.props.children
+        });
     }
 
     /**
@@ -169,7 +173,7 @@ export default class IntersectionSet extends Component {
                             </td>
                             <td  >
                                 <Dropdown overlay={() => this._getOverLay()}>
-                                    {<span style={{ cursor: 'pointer', color: output === '' ? '#bfbfbf' : '' }}>{output === '' ? '请选择' : output}</span>}
+                                    {<span style={{ cursor: 'pointer', color: output === '' ? '#bfbfbf' : '' }}>{output === '' ? '请选择' : output.type}</span>}
                                 </Dropdown>
                             </td>
                         </tr>
